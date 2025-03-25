@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Skopeo Sync
         run: |
-          skopeo sync --format v2s2 \
+          skopeo sync --format oci \
             --src yaml --dest dir \
             ${{ vars.COLLECTOR }}.yml \
             ${{ vars.COLLECTOR }}
