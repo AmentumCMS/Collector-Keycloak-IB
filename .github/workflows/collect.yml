@@ -61,8 +61,10 @@ jobs:
           helm plugin install https://github.com/nikhilsbhat/helm-images
           echo -e "\nImages listed in chart"
           helm images get keycloak/keycloak
+          echo -e "\n\nHelmchart Hash "
           sha256sum -b * \
           | tee ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.helm.sha
+          echo -e "\n\nList files: $(pwd;ls -1SSh)"
 
       - name: Directory Contents
         run: |
@@ -102,13 +104,6 @@ jobs:
         with:
           name: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.tgz.txt
           path: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.tgz.txt
-          if-no-files-found: error
-
-      - name: Upload Helmchart
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.helm
-          path: ${{ vars.COLLECTOR }}/helmchart/*
           if-no-files-found: error
 
   Code:
@@ -188,9 +183,18 @@ jobs:
           helm plugin install https://github.com/nikhilsbhat/helm-images
           echo -e "\nImages listed in chart"
           helm images get keycloak/keycloak
+          echo -e "\nHash chart"
           sha256sum -b * \
           | tee ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.helm.sha
+          echo -e "\nList files:\n$(ls -1SSh)"
 
+      - name: Upload Helmchart
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.helm
+          path: ${{ vars.COLLECTOR }}/helmchart/*
+          if-no-files-found: error
+  
       - name: Show Artifacts
         run: ls -Alht ${{ vars.COLLECTOR }}
 
