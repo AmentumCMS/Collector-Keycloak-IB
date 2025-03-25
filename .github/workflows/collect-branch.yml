@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Skopeo Sync
         run: |
-          skopeo sync \
+          skopeo sync --format v2s2 \
             --src yaml --dest dir \
             ${{ vars.COLLECTOR }}.yml \
             ${{ vars.COLLECTOR }}
@@ -53,12 +53,12 @@ jobs:
           mkdir -p ${{ vars.COLLECTOR }}/helmchart
           cd ${{ vars.COLLECTOR }}/helmchart
           echo -e "\nSet repo and pull chart"
-          helm repo add argo https://argoproj.github.io/argo-helm
-          helm pull argo/argo-cd
+          helm repo add keycloak https://charts.bitnami.com/bitnami/
+          helm pull keycloak/keycloak
           echo -e "\nInstall helm images plugin"
           helm plugin install https://github.com/nikhilsbhat/helm-images
           echo -e "\nImages listed in chart"
-          helm images get argo/argo-cd
+          helm images get keycloak/keycloak
           sha256sum -b * \
           | tee ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.helm.sha
 
@@ -173,12 +173,12 @@ jobs:
           mkdir -p ${{ vars.COLLECTOR }}/helmchart
           cd ${{ vars.COLLECTOR }}/helmchart
           echo -e "\nSet repo and pull chart"
-          helm repo add argo https://argoproj.github.io/argo-helm
-          helm pull argo/argo-cd
+          helm repo add keycloak https://charts.bitnami.com/bitnami/
+          helm pull keycloak/keycloak
           echo -e "\nInstall helm images plugin"
           helm plugin install https://github.com/nikhilsbhat/helm-images
           echo -e "\nImages listed in chart"
-          helm images get argo/argo-cd
+          helm images get keycloak/keycloak
           sha256sum -b * \
           | tee ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.helm.sha
 
