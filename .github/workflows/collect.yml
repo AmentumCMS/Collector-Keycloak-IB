@@ -1,4 +1,4 @@
-name: keycloak IB Collector
+name: Keycloak IB Collector
 run-name: ${{ github.actor }} is Collecting 🚀
 on:
   push:
@@ -102,6 +102,13 @@ jobs:
         with:
           name: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.tgz.txt
           path: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.tgz.txt
+          if-no-files-found: error
+
+      - name: Upload Helmchart
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.helm
+          path: ${{ vars.COLLECTOR }}/helmchart/*
           if-no-files-found: error
 
   Code:
